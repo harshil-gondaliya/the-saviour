@@ -1,0 +1,133 @@
+import styled from 'styled-components';
+import { FormState } from '../Form';
+
+import { useContext } from 'react';
+
+const FormRightWrapper = () => {
+  const Handler = useContext(FormState);
+
+  return (
+    <FormRight>
+
+      <FormInput>
+        <label>Required Amount</label>
+        <Input 
+          onChange={Handler.FormHandler} 
+          value={Handler.form.requiredAmount} 
+          name="requiredAmount" 
+          type="number" 
+          placeholder='Required Amount' 
+        />
+      </FormInput>
+
+      <FormInput>
+        <label>Choose Category</label>
+        <Select 
+          onChange={Handler.FormHandler} 
+          value={Handler.form.category} 
+          name="category"
+        >
+          <option value="Education">Education</option>
+          <option value="Health">Health</option>
+          <option value="Animal">Animal</option>
+        </Select>
+      </FormInput>
+
+      {/* Start Campaign Button */}
+      <Button 
+        onClick={Handler.startCampaign}
+      >
+        Start Campaign
+      </Button>
+    </FormRight>
+  );
+};
+
+const FormRight = styled.div`
+  width: 45%;
+`;
+
+const FormInput = styled.div`
+  display: flex;
+  flex-direction: column;
+  font-family: 'poppins';
+  margin-top: 10px;
+`;
+
+const Input = styled.input`
+  padding: 15px;
+  background-color: ${(props) => props.theme.bgDiv};
+  color: ${(props) => props.theme.color};
+  margin-top: 4px;
+  border: none;
+  border-radius: 8px;
+  outline: none;
+  font-size: large;
+  width: 100%;
+`;
+
+const RowFirstInput = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 45%;
+`;
+
+const RowSecondInput = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 45%;
+`;
+
+const Select = styled.select`
+  padding: 15px;
+  background-color: ${(props) => props.theme.bgDiv};
+  color: ${(props) => props.theme.color};
+  margin-top: 4px;
+  border: none;
+  border-radius: 8px;
+  outline: none;
+  font-size: large;
+  width: 100%;
+`;
+
+const Image = styled.input`
+  background-color: ${(props) => props.theme.bgDiv};
+  color: ${(props) => props.theme.color};
+  margin-top: 4px;
+  border: none;
+  border-radius: 8px;
+  outline: none;
+  font-size: large;
+  width: 100%;
+
+  &::-webkit-file-upload-button {
+    padding: 15px;
+    background-color: ${(props) => props.theme.bgSubDiv};
+    color: ${(props) => props.theme.color};
+    outline: none;
+    border: none;
+    font-weight: bold;
+  }
+`;
+
+const Button = styled.button`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 15px;
+  color: white;
+  background-color: #00b712;
+  background-image: linear-gradient(180deg, #00b712 0%, #5aff15 80%);
+  border: none;
+  margin-top: 30px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: large;
+
+  &:disabled {
+    background-color: grey;
+    cursor: not-allowed;
+  }
+`;
+
+export default FormRightWrapper;

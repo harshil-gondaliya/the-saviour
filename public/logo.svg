@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
+  <rect width="500" height="500" fill="#f5f5dc"/>
+  <path d="M140 150 C140 150, 175 180, 200 200 C225 220, 250 225, 275 220 C300 215, 325 200, 350 180 C375 160, 360 150, 350 150 L340 160 C330 170, 310 185, 290 192 C270 199, 250 200, 230 192 C210 184, 190 170, 180 160 L170 150 Z" fill="#ff8c00"/>
+  <path d="M200 150 C200 150, 220 170, 240 185 C260 200, 280 205, 300 200 C320 195, 340 180, 350 160 L340 170 C330 180, 315 190, 295 195 C275 200, 255 198, 235 190 C215 182, 200 165, 200 150 Z" fill="#3d3d3d"/>
+  <text x="250" y="330" font-family="Arial, sans-serif" font-size="48" font-weight="bold" text-anchor="middle" fill="#000">THE SAVIOUR</text>
+</svg>
