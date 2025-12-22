@@ -77,9 +77,23 @@ export default function Index({AllData, HealthData, EducationData,AnimalData}) {
 
 
 export async function getStaticProps() {
-  const provider = new ethers.providers.JsonRpcProvider(
-    process.env.NEXT_PUBLIC_RPC_URL
-  );
+  const rpcUrl = process.env.NEXT_PUBLIC_RPC_URL;
+  
+  if (!rpcUrl) {
+    console.error('NEXT_PUBLIC_RPC_URL is not defined');
+    return {
+      props: {
+        AllData: [],
+        HealthData: [],
+        EducationData: [],
+        AnimalData: []
+      },
+      revalidate: 10
+    };
+  }
+
+  try {
+    const provider = new ethers.providers.JsonRpcProvider(rpcUrl);
 
   const contract = new ethers.Contract(
     process.env.NEXT_PUBLIC_ADDRESS,
@@ -88,9 +102,8 @@ export async function getStaticProps() {
   );
 
   // Get the latest block number and query recent blocks only
-  // Note: Alchemy free tier only allows 10 block range for eth_getLogs
   const latestBlock = await provider.getBlockNumber();
-  const fromBlock = Math.max(0, latestBlock - 9); // Last 10 blocks
+  const fromBlock = Math.max(0, latestBlock - 10000); // Last ~10000 blocks
 
   const getAllCampaigns = contract.filters.campaignCreated();
   const AllCampaigns = await contract.queryFilter(getAllCampaigns, fromBlock, latestBlock);
@@ -118,7 +131,7 @@ export async function getStaticProps() {
     }
   });
 
-  const getEducationCampaigns = contract.filters.campaignCreated(null,null,null,null,null,null,'education');
+  const getEducationCampaigns = contract.filters.campaignCreated(null,null,null,null,null,null,'Education');
   const EducationCampaigns = await contract.queryFilter(getEducationCampaigns, fromBlock, latestBlock);
   const EducationData = EducationCampaigns.map((e) => {
     return {
@@ -152,6 +165,18 @@ export async function getStaticProps() {
       AnimalData
     },
     revalidate: 10
+  }
+  } catch (error) {
+    console.error('Error fetching campaigns:', error.message);
+    return {
+      props: {
+        AllData: [],
+        HealthData: [],
+        EducationData: [],
+        AnimalData: []
+      },
+      revalidate: 10
+    };
   }
 }
 

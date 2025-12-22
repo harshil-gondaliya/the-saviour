@@ -25,7 +25,7 @@ const networks = {
       symbol: "ETH",
       decimals: 18,
     },
-    rpcUrls: ["https://eth-sepolia.g.alchemy.com/v2/ykbRVuuhIgdpFX4keONLC"],
+    rpcUrls: [process.env.NEXT_PUBLIC_RPC_URL || "https://sepolia.infura.io/v3/YOUR_API_KEY"],
     blockExplorerUrls: ["https://sepolia.etherscan.io"],
   },
 };
@@ -33,6 +33,28 @@ const networks = {
 const Wallet = () => {
   const [address, setAddress] = useState("");
   const [balance, setBalance] = useState("");
+
+  useEffect(() => {
+    // Check if wallet is already connected on page load
+    const checkConnection = async () => {
+      if (window.ethereum) {
+        try {
+          const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+          if (accounts.length > 0) {
+            const provider = new ethers.providers.Web3Provider(window.ethereum);
+            const signer = provider.getSigner();
+            const Address = await signer.getAddress();
+            setAddress(Address);
+            const Balance = ethers.utils.formatEther(await provider.getBalance(Address));
+            setBalance(Balance);
+          }
+        } catch (error) {
+          console.error('Error checking wallet connection:', error);
+        }
+      }
+    };
+    checkConnection();
+  }, []);
 
   const connectWallet = async () => {
     if (!window.ethereum) {

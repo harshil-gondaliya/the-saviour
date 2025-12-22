@@ -21,18 +21,23 @@ export default function Dashboard() {
 
   useEffect(() => {
     const Request = async () => {
-      // Check if already connected, otherwise request connection
-      const accounts = await window.ethereum.request({ method: 'eth_accounts' });
-      if (accounts.length === 0) {
-        await window.ethereum.request({ method: 'eth_requestAccounts' });
-      }
-      const Web3provider = new ethers.providers.Web3Provider(window.ethereum);
-      const signer = Web3provider.getSigner();
-      const Address = await signer.getAddress();
+      try {
+        const rpcUrl = process.env.NEXT_PUBLIC_RPC_URL;
+        if (!rpcUrl) {
+          console.error('RPC URL not configured');
+          return;
+        }
 
-      const provider = new ethers.providers.JsonRpcProvider(
-        process.env.NEXT_PUBLIC_RPC_URL
-      );
+        // Check if already connected, otherwise request connection
+        const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+        if (accounts.length === 0) {
+          await window.ethereum.request({ method: 'eth_requestAccounts' });
+        }
+        const Web3provider = new ethers.providers.Web3Provider(window.ethereum);
+        const signer = Web3provider.getSigner();
+        const Address = await signer.getAddress();
+
+        const provider = new ethers.providers.JsonRpcProvider(rpcUrl);
   
       const contract = new ethers.Contract(
         process.env.NEXT_PUBLIC_ADDRESS,
@@ -41,9 +46,8 @@ export default function Dashboard() {
       );
   
       // Get the latest block number and query recent blocks only
-      // Note: Alchemy free tier only allows 10 block range for eth_getLogs
       const latestBlock = await provider.getBlockNumber();
-      const fromBlock = Math.max(0, latestBlock - 9); // Last 10 blocks
+      const fromBlock = Math.max(0, latestBlock - 10000); // Last ~10000 blocks
 
       const getAllCampaigns = contract.filters.campaignCreated(null, null, Address);
       const AllCampaigns = await contract.queryFilter(getAllCampaigns, fromBlock, latestBlock);
@@ -58,6 +62,9 @@ export default function Dashboard() {
       }
       })  
       setCampaignsData(AllData)
+      } catch (error) {
+        console.error('Error loading dashboard:', error);
+      }
     }
     Request();
   }, [])

@@ -24,20 +24,24 @@ export default function Detail({Data, DonationsData}) {
 
   useEffect(() => {
     const Request = async () => {
-      let storyData;
-      
-      // Check if already connected, otherwise request connection
-      const accounts = await window.ethereum.request({ method: 'eth_accounts' });
-      if (accounts.length === 0) {
-        await window.ethereum.request({ method: 'eth_requestAccounts' });
-      }
-      const Web3provider = new ethers.providers.Web3Provider(window.ethereum);
-      const signer = Web3provider.getSigner();
-      const Address = await signer.getAddress();
+      try {
+        let storyData;
+        const rpcUrl = process.env.NEXT_PUBLIC_RPC_URL;
+        if (!rpcUrl) {
+          console.error('RPC URL not configured');
+          return;
+        }
+        
+        // Check if already connected, otherwise request connection
+        const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+        if (accounts.length === 0) {
+          await window.ethereum.request({ method: 'eth_requestAccounts' });
+        }
+        const Web3provider = new ethers.providers.Web3Provider(window.ethereum);
+        const signer = Web3provider.getSigner();
+        const Address = await signer.getAddress();
 
-      const provider = new ethers.providers.JsonRpcProvider(
-        process.env.NEXT_PUBLIC_RPC_URL
-      );
+        const provider = new ethers.providers.JsonRpcProvider(rpcUrl);
     
       const contract = new ethers.Contract(
         Data.address,
@@ -50,9 +54,8 @@ export default function Detail({Data, DonationsData}) {
       storyData = await res.text();
 
       // Get the latest block number and query recent blocks only
-      // Note: Alchemy free tier only allows 10 block range for eth_getLogs
       const latestBlock = await provider.getBlockNumber();
-      const fromBlock = Math.max(0, latestBlock - 9); // Last 10 blocks
+      const fromBlock = Math.max(0, latestBlock - 10000); // Last ~10000 blocks
 
       const MyDonations = contract.filters.donated(Address);
       const MyAllDonations = await contract.queryFilter(MyDonations, fromBlock, latestBlock);
@@ -66,6 +69,9 @@ export default function Detail({Data, DonationsData}) {
       }));
 
       setStory(storyData);
+      } catch (error) {
+        console.error('Error loading campaign details:', error);
+      }
     }
 
     Request();
@@ -182,43 +188,73 @@ export default function Detail({Data, DonationsData}) {
 
 
 export async function getStaticPaths() {
-  const provider = new ethers.providers.JsonRpcProvider(
-    process.env.NEXT_PUBLIC_RPC_URL
-  );
+  try {
+    const rpcUrl = process.env.NEXT_PUBLIC_RPC_URL;
+    const contractAddress = process.env.NEXT_PUBLIC_ADDRESS;
+    
+    if (!rpcUrl || !contractAddress) {
+      console.error('RPC URL or Contract Address not configured');
+      return {
+        paths: [],
+        fallback: "blocking"
+      };
+    }
 
-  const contract = new ethers.Contract(
-    process.env.NEXT_PUBLIC_ADDRESS,
-    CampaignFactory.abi,
-    provider
-  );
+    const provider = new ethers.providers.JsonRpcProvider(rpcUrl);
+    const contract = new ethers.Contract(
+      contractAddress,
+      CampaignFactory.abi,
+      provider
+    );
 
-  // Get the latest block number and query recent blocks only
-  const latestBlock = await provider.getBlockNumber();
-  const fromBlock = Math.max(0, latestBlock - 10000); // Last ~10000 blocks
+    // Get the latest block number and query recent blocks only
+    const latestBlock = await provider.getBlockNumber();
+    const fromBlock = Math.max(0, latestBlock - 10000); // Last ~10000 blocks
 
-  const getAllCampaigns = contract.filters.campaignCreated();
-  const AllCampaigns = await contract.queryFilter(getAllCampaigns, fromBlock, latestBlock);
+    const getAllCampaigns = contract.filters.campaignCreated();
+    const AllCampaigns = await contract.queryFilter(getAllCampaigns, fromBlock, latestBlock);
 
-  return {
-    paths: AllCampaigns.map((e) => ({
-        params: {
-          address: e.args.campaignAddress.toString(),
-        }
-    })),
-    fallback: "blocking"
+    return {
+      paths: AllCampaigns.map((e) => ({
+          params: {
+            address: e.args.campaignAddress.toString(),
+          }
+      })),
+      fallback: "blocking"
+    };
+  } catch (error) {
+    console.error('Error in getStaticPaths:', error.message);
+    return {
+      paths: [],
+      fallback: "blocking"
+    };
   }
 }
 
 export async function getStaticProps(context) {
-  const provider = new ethers.providers.JsonRpcProvider(
-    process.env.NEXT_PUBLIC_RPC_URL
-  );
+  // Prevent treating favicon.ico or other files as addresses
+  const address = context.params.address;
+  if (!address || address.includes('.') || !ethers.utils.isAddress(address)) {
+    return {
+      notFound: true,
+    };
+  }
 
-  const contract = new ethers.Contract(
-    context.params.address,
-    Campaign.abi,
-    provider
-  );
+  const rpcUrl = process.env.NEXT_PUBLIC_RPC_URL;
+  if (!rpcUrl) {
+    console.error('RPC URL not configured');
+    return {
+      notFound: true,
+    };
+  }
+
+  try {
+    const provider = new ethers.providers.JsonRpcProvider(rpcUrl);
+    const contract = new ethers.Contract(
+      context.params.address,
+      Campaign.abi,
+      provider
+    );
 
   const title = await contract.title();
   const requiredAmount = await contract.requiredAmount();
@@ -228,9 +264,8 @@ export async function getStaticProps(context) {
   const receivedAmount = await contract.receivedAmount();
 
   // Get the latest block number and query recent blocks only
-  // Note: Alchemy free tier only allows 10 block range for eth_getLogs
   const latestBlock = await provider.getBlockNumber();
-  const fromBlock = Math.max(0, latestBlock - 9); // Last 10 blocks
+  const fromBlock = Math.max(0, latestBlock - 10000); // Last ~10000 blocks
 
   const Donations = contract.filters.donated();
   const AllDonations = await contract.queryFilter(Donations, fromBlock, latestBlock);
@@ -260,8 +295,12 @@ export async function getStaticProps(context) {
     },
     revalidate: 10
   }
-
-
+  } catch (error) {
+    console.error('Error in getStaticProps for campaign:', error.message);
+    return {
+      notFound: true,
+    };
+  }
 }
 
 

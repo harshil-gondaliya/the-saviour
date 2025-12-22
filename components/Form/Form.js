@@ -31,6 +31,18 @@ const Form = () => {
 
     const startCampaign = async (e) => {
         e.preventDefault();
+
+        if (!window.ethereum) {
+            toast.error("Please install MetaMask!");
+            return;
+        }
+
+        const contractAddress = process.env.NEXT_PUBLIC_ADDRESS;
+        if (!contractAddress) {
+            toast.error("Contract address is not configured. Check your .env.local file.");
+            return;
+        }
+
         // Check if already connected, otherwise request connection
         const accounts = await window.ethereum.request({ method: 'eth_accounts' });
         if (accounts.length === 0) {
@@ -49,13 +61,6 @@ const Form = () => {
         }
         if (form.requiredAmount === "") {
             toast.warn("Required Amount Field Is Empty");
-            return;
-        }
-
-
-        const contractAddress = process.env.NEXT_PUBLIC_ADDRESS;
-        if (!contractAddress) {
-            toast.error("Contract address is not set in environment variables.");
             return;
         }
 

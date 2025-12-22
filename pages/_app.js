@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import { useEffect } from 'react';
 import Layout from '../components/layout/Layout';
 import '../style/global.css';
@@ -22,9 +23,16 @@ function MyApp({ Component, pageProps }) {
   }, []);
 
   return (
-    <Layout>
-      <Component {...pageProps} />
-    </Layout>
+    <>
+      <Head>
+        <title>The Saviour - Crowdfunding DApp</title>
+        <meta name="description" content="Decentralized crowdfunding platform" />
+        <link rel="icon" href="/logo.svg" />
+      </Head>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </>
   );
 }
 
