@@ -164,22 +164,4 @@ const Address = styled.h2`
   }
 `;
 
-const Address = styled.h2`
-  background-color: ${(props) => props.theme.bgSubDiv};
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 5px 0 5px;
-  border-radius: 10px;
-`;
-
-const Balance = styled.h2`
-  display: flex;
-  height: 100%;
-  align-items: center;
-  justify-content: center;
-  margin-right: 5px;
-`;
-
 export default Wallet;

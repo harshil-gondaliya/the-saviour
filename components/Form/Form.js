@@ -116,13 +116,13 @@ const Form = () => {
                                 <TailSpin height={60} />
                             </Spinner>
                         ) : (
-                            <Address>
+                            <SuccessWrapper>
                                 <h1>Campaign Started Successfully!</h1>
                                 <h1>{address}</h1>
                                 <Button onClick={() => window.open(`/campaign/${address}`, "_blank")}>
                                     Go To Campaign
                                 </Button>
-                            </Address>
+                            </SuccessWrapper>
                         )
                     ) : (
                         <FormInputsWrapper>
@@ -175,7 +175,7 @@ const Spinner = styled.div`
     align-items: center;
 `;
 
-const Address = styled.div`
+const SuccessWrapper = styled.div`
     width: 100%;
     height: 80vh;
     display: flex;
