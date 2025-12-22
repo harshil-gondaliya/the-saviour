@@ -140,16 +140,31 @@ const FormWrapper = styled.div`
     width: 100%;
     display: flex;
     justify-content: center;
+    padding: 0 10px;
 `;
 
 const FormMain = styled.div`
     width: 80%;
+    
+    @media (max-width: 1024px) {
+        width: 90%;
+    }
+    
+    @media (max-width: 768px) {
+        width: 95%;
+    }
 `;
 
 const FormInputsWrapper = styled.div`
     display: flex;
     justify-content: space-between;
     margin-top: 45px;
+    gap: 20px;
+    
+    @media (max-width: 768px) {
+        flex-direction: column;
+        gap: 0;
+    }
 `;
 
 const Spinner = styled.div`

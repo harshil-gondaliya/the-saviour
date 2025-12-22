@@ -30,7 +30,15 @@ const HeaderNavWrapper = styled.div`
   padding: 6px;
   height: 50%;
   border-radius: 10px;
-  `
+  
+  @media (max-width: 768px) {
+    width: 100%;
+    order: 3;
+    margin-top: 10px;
+    justify-content: space-around;
+    padding: 8px 4px;
+  }
+`
 
 const HeaderNavLinks = styled.div`
   display: flex;
@@ -46,6 +54,18 @@ const HeaderNavLinks = styled.div`
   text-transform: uppercase;
   font-weight: bold;
   font-size: small;
+  
+  @media (max-width: 768px) {
+    font-size: xx-small;
+    margin: 2px;
+    padding: 4px 6px;
+  }
+  
+  @media (max-width: 480px) {
+    font-size: 9px;
+    margin: 1px;
+    padding: 3px 4px;
+  }
 `
 
 export default HeaderNav

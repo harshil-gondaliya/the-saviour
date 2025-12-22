@@ -35,6 +35,10 @@ const FormLeft = styled.div`
   width: 48%;
   display: flex;
   flex-direction: column;
+  
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const FormInput = styled.div`

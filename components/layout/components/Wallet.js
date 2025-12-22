@@ -118,6 +118,50 @@ const ConnectWalletWrapper = styled.div`
   font-weight: bold;
   font-size: small;
   cursor: pointer;
+  
+  @media (max-width: 768px) {
+    font-size: x-small;
+    padding: 4px 6px;
+    margin-right: 8px;
+  }
+  
+  @media (max-width: 480px) {
+    font-size: xx-small;
+    padding: 3px 5px;
+    margin-right: 5px;
+  }
+`;
+
+const Balance = styled.h2`
+  font-family: "Roboto";
+  font-weight: bold;
+  font-size: small;
+  margin: 0 8px 0 0;
+  
+  @media (max-width: 768px) {
+    font-size: x-small;
+    margin: 0 4px 0 0;
+  }
+  
+  @media (max-width: 480px) {
+    font-size: xx-small;
+    margin: 0 2px 0 0;
+  }
+`;
+
+const Address = styled.h2`
+  font-family: "Roboto";
+  font-weight: bold;
+  font-size: small;
+  margin: 0;
+  
+  @media (max-width: 768px) {
+    font-size: x-small;
+  }
+  
+  @media (max-width: 480px) {
+    font-size: xx-small;
+  }
 `;
 
 const Address = styled.h2`

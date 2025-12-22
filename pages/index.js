@@ -190,13 +190,22 @@ const HomeWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
+  padding: 0 10px;
 `
+
 const FilterWrapper = styled.div`
   display: flex;
   align-items: center;
   width: 80%;
   margin-top: 15px;
+  flex-wrap: wrap;
+  
+  @media (max-width: 768px) {
+    width: 95%;
+    justify-content: center;
+  }
 `
+
 const Category = styled.div`
   padding: 10px 15px;
   background-color: ${(props) => props.theme.bgDiv};
@@ -205,18 +214,46 @@ const Category = styled.div`
   font-family: 'Poppins';
   font-weight: normal;
   cursor: pointer;
+  
+  @media (max-width: 768px) {
+    padding: 8px 12px;
+    margin: 5px 8px;
+    font-size: 14px;
+  }
+  
+  @media (max-width: 480px) {
+    padding: 6px 10px;
+    margin: 4px;
+    font-size: 12px;
+  }
 `
+
 const CardsWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
   width: 80%;
   margin-top: 25px;
+  gap: 20px;
+  
+  @media (max-width: 1200px) {
+    width: 90%;
+    justify-content: center;
+  }
+  
+  @media (max-width: 768px) {
+    width: 95%;
+    gap: 15px;
+  }
 `
+
 const Card = styled.div`
   width: 30%;
+  min-width: 280px;
   margin-top: 20px;
   background-color: ${(props) => props.theme.bgDiv};
+  border-radius: 8px;
+  overflow: hidden;
 
   &:hover{
     transform: translateY(-10px);
@@ -225,6 +262,17 @@ const Card = styled.div`
   
   &:not(:hover){
     transition: transform 0.5s;
+  }
+  
+  @media (max-width: 1024px) {
+    width: 45%;
+    min-width: 250px;
+  }
+  
+  @media (max-width: 768px) {
+    width: 100%;
+    max-width: 500px;
+    min-width: unset;
   }
 `
 const CardImg = styled.div`

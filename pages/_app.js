@@ -27,6 +27,7 @@ function MyApp({ Component, pageProps }) {
       <Head>
         <title>The Saviour - Crowdfunding DApp</title>
         <meta name="description" content="Decentralized crowdfunding platform" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
         <link rel="icon" href="/logo.svg" />
       </Head>
       <Layout>
