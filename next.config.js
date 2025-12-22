@@ -5,8 +5,21 @@ const nextConfig = {
     styledComponents: true,
   },
   images: {
-    domains:  ['ipfs.infura.io', 'th.bing.com', 'crowdfunding.infura-ipfs.io']
-   }
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'ipfs.infura.io',
+      },
+      {
+        protocol: 'https',
+        hostname: 'th.bing.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'crowdfunding.infura-ipfs.io',
+      },
+    ],
+  }
 }
 
 module.exports = nextConfig

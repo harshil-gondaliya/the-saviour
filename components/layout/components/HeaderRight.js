@@ -25,7 +25,16 @@ const HeaderRightWrapper = styled.div`
   align-items: center;
   margin-right: 16px;
   height: 50%;
+  
+  @media (max-width: 768px) {
+    margin-right: 8px;
+  }
+  
+  @media (max-width: 480px) {
+    margin-right: 4px;
+  }
 `
+
 const ThemeToggle = styled.div`
   display: flex;
   justify-content: center;
@@ -36,6 +45,24 @@ const ThemeToggle = styled.div`
   width: 45px;
   border-radius: 12px;
   cursor: pointer;
+  
+  @media (max-width: 768px) {
+    width: 38px;
+    padding: 4px;
+    
+    svg {
+      font-size: 18px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    width: 32px;
+    padding: 3px;
+    
+    svg {
+      font-size: 16px;
+    }
+  }
 `
 
 export default HeaderRight

@@ -33,11 +33,12 @@ const networks = {
 const Wallet = () => {
   const [address, setAddress] = useState("");
   const [balance, setBalance] = useState("");
+  const [isConnecting, setIsConnecting] = useState(false);
 
   useEffect(() => {
     // Check if wallet is already connected on page load
     const checkConnection = async () => {
-      if (window.ethereum) {
+      if (typeof window !== 'undefined' && window.ethereum) {
         try {
           const accounts = await window.ethereum.request({ method: 'eth_accounts' });
           if (accounts.length > 0) {
@@ -57,11 +58,15 @@ const Wallet = () => {
   }, []);
 
   const connectWallet = async () => {
+    if (typeof window === 'undefined') return;
+    
     if (!window.ethereum) {
-      alert("MetaMask not detected!");
+      alert("Please install MetaMask to connect your wallet!");
+      window.open('https://metamask.io/download/', '_blank');
       return;
     }
 
+    setIsConnecting(true);
     try {
       // Request wallet_requestPermissions to force MetaMask to show account selector
       await window.ethereum.request({
@@ -75,14 +80,19 @@ const Wallet = () => {
 
       const network = await provider.getNetwork();
       if (network.chainId !== 11155111) {
-        await window.ethereum.request({
-          method: "wallet_addEthereumChain",
-          params: [
-            {
-              ...networks["sepolia"],
-            },
-          ],
-        });
+        try {
+          await window.ethereum.request({
+            method: "wallet_addEthereumChain",
+            params: [
+              {
+                ...networks["sepolia"],
+              },
+            ],
+          });
+        } catch (switchError) {
+          console.error('Error switching network:', switchError);
+          alert('Please switch to Sepolia network manually in MetaMask');
+        }
       }
 
       const signer = provider.getSigner();
@@ -93,13 +103,24 @@ const Wallet = () => {
       setBalance(Balance);
     } catch (error) {
       console.error("Wallet connection failed:", error);
+      if (error.code === 4001) {
+        alert('Connection rejected. Please try again.');
+      } else {
+        alert('Failed to connect wallet. Please try again.');
+      }
+    } finally {
+      setIsConnecting(false);
     }
   };
 
   return (
     <ConnectWalletWrapper onClick={connectWallet}>
       {balance === "" ? <Balance></Balance> : <Balance>{balance.slice(0, 6)} ETH</Balance>}
-      {address === "" ? <Address>Connect Wallet</Address> : <Address>{address.slice(0, 6)}...{address.slice(-4)}</Address>}
+      {address === "" ? (
+        <Address>{isConnecting ? 'Connecting...' : 'Connect Wallet'}</Address>
+      ) : (
+        <Address>{address.slice(0, 6)}...{address.slice(-4)}</Address>
+      )}
     </ConnectWalletWrapper>
   );
 };
