@@ -67,8 +67,12 @@ contract Campaign {
     }
 
     function donate() public payable {
+        require(msg.value > 0, "donation amount must be greater than 0");
         require(requiredAmount > receivedAmount, "required amount fullfilled");
-        owner.transfer(msg.value);
+        
+        (bool success, ) = owner.call{value: msg.value}("");
+        require(success, "transfer failed");
+        
         receivedAmount += msg.value;
         emit donated(msg.sender, msg.value, block.timestamp);
     }

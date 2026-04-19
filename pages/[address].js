@@ -80,12 +80,27 @@ export default function Detail({Data, DonationsData}) {
 
   const DonateFunds = async () => {
     try {
+      // ✅ Validate input amount
+      if (!amount || isNaN(amount) || parseFloat(amount) <= 0) {
+        toast.error('Please enter a valid donation amount greater than 0');
+        return;
+      }
+
       // Check if already connected, otherwise request connection
       const accounts = await window.ethereum.request({ method: 'eth_accounts' });
       if (accounts.length === 0) {
         await window.ethereum.request({ method: 'eth_requestAccounts' });
       }
+
       const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const network = await provider.getNetwork();
+      
+      // ✅ Validate network is Sepolia (chainId: 11155111)
+      if (network.chainId !== 11155111) {
+        toast.error(`Wrong network! Please switch to Sepolia (chainId: 11155111). Currently on: ${network.name || network.chainId}`);
+        return;
+      }
+
       const signer = provider.getSigner();
       const signerAddress = await signer.getAddress();
 
@@ -95,16 +110,54 @@ export default function Detail({Data, DonationsData}) {
         return;
       }
 
-      const contract = new ethers.Contract(Data.address, Campaign.abi, signer);
-      const transaction = await contract.donate({value: ethers.utils.parseEther(amount)});
-      await transaction.wait();
+      // ✅ Check sufficient balance before sending
+      const balance = await provider.getBalance(signerAddress);
+      const donationAmount = ethers.utils.parseEther(amount);
+      if (balance.lt(donationAmount)) {
+        toast.error(`Insufficient balance! You have ${ethers.utils.formatEther(balance)} ETH`);
+        return;
+      }
 
+      const contract = new ethers.Contract(Data.address, Campaign.abi, signer);
+      
+      // ✅ Better error handling with detailed logging
+      console.log('Sending donation transaction...', {
+        contractAddress: Data.address,
+        donationAmount: amount,
+        signerAddress,
+        network: network.name
+      });
+      
+      const transaction = await contract.donate({value: donationAmount});
+      toast.info(`Transaction sent: ${transaction.hash}`);
+      
+      await transaction.wait();
+      
+      toast.success('Donation successful! 🎉');
       setChange(true);
       setAmount('');
 
     } catch (error) {
-      console.log(error);
-      toast.error('Donation failed: ' + (error?.message || error));
+      console.error('Donation error:', error);
+      
+      // ✅ Detailed error messages
+      let errorMsg = 'Donation failed';
+      
+      if (error?.code === 'INSUFFICIENT_FUNDS') {
+        errorMsg = 'Insufficient ETH balance';
+      } else if (error?.reason === 'required amount fullfilled') {
+        errorMsg = 'Campaign funding goal already reached';
+      } else if (error?.reason?.includes('transfer failed')) {
+        errorMsg = 'Transfer failed - check contract owner address';
+      } else if (error?.message?.includes('user rejected')) {
+        errorMsg = 'Transaction rejected by user';
+      } else if (error?.message?.includes('network')) {
+        errorMsg = 'Network error - check your RPC connection';
+      } else {
+        errorMsg = error?.reason || error?.message || 'Unknown error occurred';
+      }
+      
+      toast.error(errorMsg);
     }
 
   }
