@@ -30,6 +30,8 @@ const networks = {
   },
 };
 
+const SEPOLIA_CHAIN_ID_HEX = "0xaa36a7";
+
 const Wallet = () => {
   const [address, setAddress] = useState("");
   const [balance, setBalance] = useState("");
@@ -76,24 +78,32 @@ const Wallet = () => {
       
       // Then get the selected account
       await window.ethereum.request({ method: "eth_requestAccounts" });
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-
-      const network = await provider.getNetwork();
-      if (network.chainId !== 11155111) {
+      const currentChainId = await window.ethereum.request({ method: "eth_chainId" });
+      if (currentChainId?.toLowerCase() !== SEPOLIA_CHAIN_ID_HEX) {
         try {
           await window.ethereum.request({
-            method: "wallet_addEthereumChain",
-            params: [
-              {
-                ...networks["sepolia"],
-              },
-            ],
+            method: "wallet_switchEthereumChain",
+            params: [{ chainId: SEPOLIA_CHAIN_ID_HEX }],
           });
         } catch (switchError) {
-          console.error('Error switching network:', switchError);
-          alert('Please switch to Sepolia network manually in MetaMask');
+          if (switchError?.code === 4902) {
+            await window.ethereum.request({
+              method: "wallet_addEthereumChain",
+              params: [{ ...networks.sepolia }],
+            });
+            await window.ethereum.request({
+              method: "wallet_switchEthereumChain",
+              params: [{ chainId: SEPOLIA_CHAIN_ID_HEX }],
+            });
+          } else {
+            console.error("Error switching network:", switchError);
+            alert("Please switch to Sepolia network manually in MetaMask");
+            return;
+          }
         }
       }
+
+      const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
 
       const signer = provider.getSigner();
       const Address = await signer.getAddress();
