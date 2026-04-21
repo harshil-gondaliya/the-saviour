@@ -23,35 +23,70 @@ const HeaderRightWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-right: 16px;
-  height: 50%;
+  gap: 8px;
+  min-height: 44px;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 6;
+  
+  @media (max-width: 1024px) {
+    order: 2;
+    margin-left: auto;
+    justify-self: end;
+    gap: 6px;
+  }
   
   @media (max-width: 768px) {
-    margin-right: 8px;
+    gap: 4px;
   }
   
   @media (max-width: 480px) {
-    margin-right: 4px;
+    order: 2;
+    width: 100%;
+    justify-content: center;
+    gap: 3px;
   }
 `
 
-const ThemeToggle = styled.div`
+const ThemeToggle = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: ${(props) => props.theme.bgDiv};
   height: 100%;
-  padding: 5px;
-  width: 45px;
-  border-radius: 12px;
+  border: 1px solid rgba(0, 183, 18, 0.25);
+  padding: 6px;
+  min-width: 44px;
+  width: 44px;
+  border-radius: 10px;
   cursor: pointer;
+  transition: all 0.3s ease;
+  color: ${(props) => props.theme.color};
   
-  @media (max-width: 768px) {
-    width: 38px;
-    padding: 4px;
+  &:hover {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+  
+  svg {
+    font-size: 20px;
+  }
+  
+  @media (max-width: 1024px) {
+    width: 40px;
+    padding: 5px;
     
     svg {
       font-size: 18px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    width: 36px;
+    padding: 4px;
+    
+    svg {
+      font-size: 16px;
     }
   }
   
@@ -60,7 +95,7 @@ const ThemeToggle = styled.div`
     padding: 3px;
     
     svg {
-      font-size: 16px;
+      font-size: 14px;
     }
   }
 `

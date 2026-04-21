@@ -190,88 +190,146 @@ const HomeWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
-  padding: 0 10px;
+  padding: 20px 10px;
+  box-sizing: border-box;
+  
+  @media (max-width: 768px) {
+    padding: 15px 8px;
+  }
+  
+  @media (max-width: 480px) {
+    padding: 10px 6px;
+  }
 `
 
 const FilterWrapper = styled.div`
   display: flex;
   align-items: center;
-  width: 80%;
+  width: 85%;
+  max-width: 1200px;
   margin-top: 15px;
   flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  
+  @media (max-width: 1200px) {
+    width: 95%;
+  }
   
   @media (max-width: 768px) {
-    width: 95%;
-    justify-content: center;
+    width: 100%;
+    gap: 8px;
+  }
+  
+  @media (max-width: 480px) {
+    width: 100%;
+    gap: 6px;
   }
 `
 
 const Category = styled.div`
-  padding: 10px 15px;
+  padding: 12px 20px;
   background-color: ${(props) => props.theme.bgDiv};
-  margin: 0px 15px;
-  border-radius: 8px;
+  border-radius: 10px;
   font-family: 'Poppins';
-  font-weight: normal;
+  font-weight: 700;
+  font-size: 13px;
   cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  user-select: none;
+  border: 2px solid transparent;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  
+  &:hover {
+    background: linear-gradient(135deg, #00b712 0%, #5aff15 100%);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 183, 18, 0.3);
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
+  
+  @media (max-width: 1024px) {
+    padding: 10px 16px;
+    font-size: 12px;
+  }
   
   @media (max-width: 768px) {
-    padding: 8px 12px;
-    margin: 5px 8px;
-    font-size: 14px;
+    padding: 10px 14px;
+    font-size: 11px;
+    min-height: 40px;
   }
   
   @media (max-width: 480px) {
-    padding: 6px 10px;
-    margin: 4px;
-    font-size: 12px;
+    padding: 8px 10px;
+    font-size: 10px;
+    min-height: 36px;
   }
 `
 
 const CardsWrapper = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   flex-wrap: wrap;
-  width: 80%;
+  width: 85%;
+  max-width: 1400px;
   margin-top: 25px;
-  gap: 20px;
+  gap: 25px;
   
   @media (max-width: 1200px) {
-    width: 90%;
-    justify-content: center;
-  }
-  
-  @media (max-width: 768px) {
     width: 95%;
-    gap: 15px;
-  }
-`
-
-const Card = styled.div`
-  width: 30%;
-  min-width: 280px;
-  margin-top: 20px;
-  background-color: ${(props) => props.theme.bgDiv};
-  border-radius: 8px;
-  overflow: hidden;
-
-  &:hover{
-    transform: translateY(-10px);
-    transition: transform 0.5s;
-  }
-  
-  &:not(:hover){
-    transition: transform 0.5s;
-  }
-  
-  @media (max-width: 1024px) {
-    width: 45%;
-    min-width: 250px;
+    gap: 20px;
   }
   
   @media (max-width: 768px) {
     width: 100%;
-    max-width: 500px;
+    gap: 15px;
+    padding: 0 8px;
+    box-sizing: border-box;
+  }
+  
+  @media (max-width: 480px) {
+    width: 100%;
+    gap: 10px;
+    padding: 0 6px;
+    box-sizing: border-box;
+  }
+`
+
+const Card = styled.div`
+  flex: 0 1 calc(33.333% - 17px);
+  min-width: 250px;
+  margin-top: 0;
+  background-color: ${(props) => props.theme.bgDiv};
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  border: 1px solid rgba(0, 183, 18, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+
+  &:hover{
+    transform: translateY(-8px);
+    box-shadow: 0 12px 24px rgba(0, 183, 18, 0.15);
+    border-color: rgba(0, 183, 18, 0.3);
+  }
+  
+  @media (max-width: 1200px) {
+    flex: 0 1 calc(50% - 13px);
+  }
+  
+  @media (max-width: 768px) {
+    flex: 0 1 100%;
+    max-width: 100%;
     min-width: unset;
   }
 `
@@ -282,20 +340,40 @@ const CardImg = styled.div`
 `
 const Title = styled.h2`
   font-family: 'Roboto';
-  font-size: 18px;
-  margin: 2px 0px;
+  font-size: 16px;
+  margin: 0;
   background-color: ${(props) => props.theme.bgSubDiv};
-  padding: 5px;
+  padding: 12px;
   cursor: pointer;
-  font-weight: normal;
+  font-weight: 700;
+  word-break: break-word;
+  border-bottom: 2px solid rgba(0, 183, 18, 0.2);
+  transition: all 0.3s ease;
+  
+  @media (max-width: 768px) {
+    font-size: 14px;
+    padding: 10px;
+  }
+  
+  @media (max-width: 480px) {
+    font-size: 13px;
+    padding: 8px;
+  }
 `
 const CardData = styled.div`
   display: flex;
   justify-content: space-between;
-  margin: 2px 0px;
+  margin: 0;
   background-color: ${(props) => props.theme.bgSubDiv};
-  padding: 5px;
+  padding: 8px;
   cursor: pointer;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  flex-wrap: wrap;
+  gap: 8px;
+  
+  @media (max-width: 480px) {
+    padding: 6px;
+  }
   `
 const Text = styled.p`
   display: flex;
@@ -303,21 +381,59 @@ const Text = styled.p`
   margin: 0;
   padding: 0;
   font-family: 'Roboto';
-  font-size: 18px;
-  font-weight: bold;
+  font-size: 13px;
+  font-weight: 600;
+  gap: 4px;
+  flex-wrap: wrap;
+  
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
+  
+  @media (max-width: 480px) {
+    font-size: 11px;
+  }
+  
+  svg {
+    min-width: 16px;
+  }
 `
 const Button = styled.button`
-  padding: 8px;
+  padding: 12px;
   text-align: center;
   width: 100%;
-  background-color:#00b712 ;
-  background-image:
-      linear-gradient(180deg, #00b712 0%, #5aff15 80%); 
+  background: linear-gradient(135deg, #00b712 0%, #5aff15 100%);
   border: none;
   cursor: pointer;
   font-family: 'Roboto';
   text-transform: uppercase;
   color: #fff;
-  font-size: 14px;
-  font-weight: bold;
+  font-size: 13px;
+  font-weight: 700;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 183, 18, 0.2);
+  letter-spacing: 0.5px;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 183, 18, 0.35);
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
+  
+  @media (max-width: 768px) {
+    font-size: 12px;
+    padding: 10px;
+  }
+  
+  @media (max-width: 480px) {
+    font-size: 11px;
+    padding: 10px;
+  }
 ` 

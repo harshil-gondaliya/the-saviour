@@ -29,6 +29,10 @@ const Layout = ({ children }) => {
 }
 
 const GlobalStyle = createGlobalStyle`
+  * {
+    box-sizing: border-box;
+  }
+  
   body {
     margin: 0;
     padding: 0;
@@ -37,14 +41,21 @@ const GlobalStyle = createGlobalStyle`
     background-image: ${(props) => props.theme.bgImage};
     color: ${(props) => props.theme.color};
     min-height: 100vh;
+    width: 100%;
+    max-width: 100vw;
   }
 `;
 
 const LayoutWrapper = styled.div`
   min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
   background-color: ${(props) => props.theme.bgColor};
   background-image: ${(props) => props.theme.bgImage};
   color: ${(props) => props.theme.color};
+  box-sizing: border-box;
+  overflow-x: hidden;
 `;
 
 export default Layout;

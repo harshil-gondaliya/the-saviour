@@ -5,32 +5,72 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
 body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-html {
-  scroll-behavior: smooth;
+  width: 100%;
 }
 
 /* Responsive images */
 img {
   max-width: 100%;
   height: auto;
+  display: block;
 }
 
-/* Responsive text */
-@media (max-width: 768px) {
+/* Responsive text - Desktop */
+h1 {
+  font-size: 2.5rem;
+  margin: 20px 0;
+  line-height: 1.2;
+}
+
+h2 {
+  font-size: 2rem;
+  margin: 16px 0;
+  line-height: 1.3;
+}
+
+h3 {
+  font-size: 1.5rem;
+  margin: 14px 0;
+}
+
+h4 {
+  font-size: 1.25rem;
+  margin: 12px 0;
+}
+
+p {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 10px 0;
+}
+
+/* Tablet screens (1024px and below) */
+@media (max-width: 1024px) {
+  html {
+    font-size: 15px;
+  }
+  
   h1 {
-    font-size: 1.5rem;
+    font-size: 2rem;
   }
   
   h2 {
-    font-size: 1.25rem;
+    font-size: 1.75rem;
+  }
+  
+  h3 {
+    font-size: 1.35rem;
   }
   
   p {
@@ -38,16 +78,119 @@ img {
   }
 }
 
-@media (max-width: 480px) {
+/* Medium tablets (768px and below) */
+@media (max-width: 768px) {
+  html {
+    font-size: 14px;
+  }
+  
   h1 {
-    font-size: 1.25rem;
+    font-size: 1.75rem;
+    margin: 16px 0;
   }
   
   h2 {
+    font-size: 1.5rem;
+    margin: 14px 0;
+  }
+  
+  h3 {
+    font-size: 1.25rem;
+    margin: 12px 0;
+  }
+  
+  p {
+    font-size: 0.95rem;
+    margin: 8px 0;
+  }
+  
+  button {
+    min-height: 44px;
+  }
+  
+  input, textarea, select {
+    min-height: 44px;
+    font-size: 16px;
+  }
+}
+
+/* Small phones (480px and below) */
+@media (max-width: 480px) {
+  html {
+    font-size: 13px;
+  }
+  
+  h1 {
+    font-size: 1.5rem;
+    margin: 12px 0;
+  }
+  
+  h2 {
+    font-size: 1.25rem;
+    margin: 10px 0;
+  }
+  
+  h3 {
     font-size: 1.1rem;
+    margin: 8px 0;
   }
   
   p {
     font-size: 0.9rem;
+    margin: 6px 0;
+  }
+  
+  button {
+    min-height: 44px;
+    font-size: 14px;
+  }
+  
+  input, textarea, select {
+    min-height: 44px;
+    font-size: 16px;
+  }
+}
+
+/* Ensure all inputs are touch-friendly */
+button, input, textarea, select {
+  min-height: 44px;
+  font-size: 16px !important;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Prevent horizontal scroll and ensure proper sizing */
+html, body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+/* Ensure full-width responsiveness */
+body {
+  width: 100vw;
+  max-width: 100%;
+}
+
+/* Mobile-friendly form elements */
+input, textarea, select {
+  font-size: 16px;
+}
+
+/* Ensure images don't overflow */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Ensure flex containers handle wrapping */
+@supports (display: flex) {
+  .flex-container {
+    display: flex;
+    flex-wrap: wrap;
   }
 }

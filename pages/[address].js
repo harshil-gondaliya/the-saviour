@@ -363,18 +363,26 @@ const DetailWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 20px;
-  width: 98%;
+  width: 100%;
   gap: 20px;
+  box-sizing: border-box;
   
   @media (max-width: 1024px) {
     flex-direction: column;
-    width: 95%;
     padding: 15px;
+    gap: 15px;
+  }
+  
+  @media (max-width: 480px) {
+    padding: 10px;
+    gap: 10px;
   }
 `;
 
 const LeftContainer = styled.div`
   width: 45%;
+  display: flex;
+  flex-direction: column;
   
   @media (max-width: 1024px) {
     width: 100%;
@@ -383,6 +391,8 @@ const LeftContainer = styled.div`
 
 const RightContainer = styled.div`
   width: 50%;
+  display: flex;
+  flex-direction: column;
   
   @media (max-width: 1024px) {
     width: 100%;
@@ -404,87 +414,167 @@ const ImageSection = styled.div`
 
 const Text = styled.p`
   font-family: "Roboto";
-  font-size: large;
+  font-size: 1rem;
   color: ${(props) => props.theme.color};
   text-align: justify;
+  line-height: 1.6;
+  word-break: break-word;
   
   @media (max-width: 768px) {
-    font-size: medium;
+    font-size: 0.95rem;
+  }
+  
+  @media (max-width: 480px) {
+    font-size: 0.9rem;
   }
 `;
 
 const Title = styled.h1`
   padding: 0;
-  margin: 0;
+  margin: 0 0 15px 0;
   font-family: "Poppins";
-  font-size: x-large;
+  font-size: 1.8rem;
   color: ${(props) => props.theme.color};
+  word-break: break-word;
+  
+  @media (max-width: 1024px) {
+    font-size: 1.6rem;
+  }
   
   @media (max-width: 768px) {
-    font-size: large;
+    font-size: 1.4rem;
+  }
+  
+  @media (max-width: 480px) {
+    font-size: 1.2rem;
   }
 `;
 const DonateSection = styled.div`
   display: flex;
   width: 100%;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
-  margin-top: 10px;
-  gap: 10px;
+  margin-top: 15px;
+  gap: 12px;
   flex-wrap: wrap;
   
   @media (max-width: 768px) {
     flex-direction: column;
+    align-items: stretch;
   }
 `;
 
 const Input = styled.input`
-  padding: 8px 15px;
-  background-color: ${(props) => props.theme.bgDiv};
+  padding: 12px 14px;
+  background-color: ${(props) => props.theme.bgSubDiv};
   color: ${(props) => props.theme.color};
-  border: none;
-  border-radius: 8px;
+  border: 2px solid ${(props) => props.theme.bgDiv};
+  border-radius: 10px;
   outline: none;
-  font-size: large;
+  font-size: 1rem;
   width: 40%;
-  height: 40px;
+  min-height: 48px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-family: inherit;
+  box-sizing: border-box;
+  
+  &:focus {
+    border-color: #00b712;
+    box-shadow: 0 0 0 3px rgba(0, 183, 18, 0.1);
+    background-color: ${(props) => props.theme.bgSubDiv};
+  }
+  
+  &:hover {
+    border-color: rgba(0, 183, 18, 0.5);
+  }
   
   @media (max-width: 768px) {
     width: 100%;
+    font-size: 16px;
+    padding: 11px 12px;
+  }
+  
+  @media (max-width: 480px) {
+    width: 100%;
+    font-size: 16px;
   }
 `;
 
 const Donate = styled.button`
   display: flex;
   justify-content: center;
+  align-items: center;
   width: 40%;
-  padding: 15px;
+  padding: 14px 24px;
   color: white;
-  background-color: #00b712;
-  background-image: linear-gradient(180deg, #00b712 0%, #5aff15 80%);
+  background: linear-gradient(135deg, #00b712 0%, #5aff15 100%);
   border: none;
   cursor: pointer;
-  font-weight: bold;
-  border-radius: 8px;
-  font-size: large;
+  font-weight: 700;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-family: inherit;
+  min-height: 48px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(0, 183, 18, 0.3);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 183, 18, 0.4);
+  }
+  
+  &:active {
+    transform: translateY(-1px);
+  }
   
   @media (max-width: 768px) {
     width: 100%;
+    font-size: 0.95rem;
+    padding: 12px 20px;
+  }
+  
+  @media (max-width: 480px) {
+    font-size: 0.9rem;
+    padding: 11px 16px;
   }
 `;
 
 const SmallButton = styled.button`
-  margin-left: 8px;
-  padding: 8px 12px;
+  padding: 12px 18px;
   background-color: ${(props) => props.theme.bgDiv};
   color: ${(props) => props.theme.color};
-  border: 1px solid ${(props) => props.theme.bgSubDiv};
-  border-radius: 8px;
+  border: 2px solid rgba(0, 183, 18, 0.3);
+  border-radius: 10px;
   cursor: pointer;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 700;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  min-height: 48px;
+  white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  
+  &:hover {
+    border-color: #00b712;
+    background: rgba(0, 183, 18, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 183, 18, 0.2);
+  }
   
   @media (max-width: 768px) {
     width: 100%;
-    margin-left: 0;
+    margin-left: 0 !important;
+    margin-top: 8px;
+    padding: 11px 16px;
+    font-size: 0.9rem;
+  }
+  
+  @media (max-width: 480px) {
+    padding: 10px 12px;
+    font-size: 0.8rem;
   }
 `;
 
@@ -501,9 +591,10 @@ const FundsData = styled.div`
 `;
 
 const Funds = styled.div`
-  width: 45%;
+  flex: 1;
+  min-width: 150px;
   background-color: ${(props) => props.theme.bgDiv};
-  padding: 8px;
+  padding: 12px;
   border-radius: 8px;
   text-align: center;
   
@@ -513,13 +604,18 @@ const Funds = styled.div`
 `;
 
 const FundText = styled.p`
-  margin: 2px;
-  padding: 0;
+  margin: 0;
+  padding: 4px 0;
   font-family: "Poppins";
-  font-size: normal;
+  font-size: 0.95rem;
+  font-weight: 600;
   
   @media (max-width: 768px) {
-    font-size: small;
+    font-size: 0.85rem;
+  }
+  
+  @media (max-width: 480px) {
+    font-size: 0.8rem;
   }
 `;
 
@@ -582,15 +678,16 @@ const Donation = styled.div`
 const DonationData = styled.p`
   color: ${(props) => props.theme.color};
   font-family: "Roboto";
-  font-size: large;
+  font-size: 0.95rem;
   margin: 0;
   padding: 0;
+  word-break: break-all;
   
   @media (max-width: 768px) {
-    font-size: medium;
+    font-size: 0.85rem;
   }
   
   @media (max-width: 480px) {
-    font-size: small;
+    font-size: 0.75rem;
   }
 `;

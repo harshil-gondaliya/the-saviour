@@ -9,15 +9,15 @@ const HeaderNav = () => {
 
   return (
     <HeaderNavWrapper>
-      <Link passHref href={'/'}><HeaderNavLinks $active={Router.pathname == "/" ? true : false} >
+      <HeaderNavLink href={'/'} $active={Router.pathname == "/"}>
         Campaigns
-      </HeaderNavLinks></Link>
-      <Link passHref href={'/createcampaign'}><HeaderNavLinks $active={Router.pathname == "/createcampaign" ? true : false} >
+      </HeaderNavLink>
+      <HeaderNavLink href={'/createcampaign'} $active={Router.pathname == "/createcampaign"}>
         Create Campaign
-      </HeaderNavLinks></Link>
-      <Link passHref href={'/dashboard'}><HeaderNavLinks $active={Router.pathname == "/dashboard" ? true : false} >
+      </HeaderNavLink>
+      <HeaderNavLink href={'/dashboard'} $active={Router.pathname == "/dashboard"}>
         Dashboard
-      </HeaderNavLinks></Link>
+      </HeaderNavLink>
     </HeaderNavWrapper>
   )
 }
@@ -25,46 +25,80 @@ const HeaderNav = () => {
 const HeaderNavWrapper = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   background-color: ${(props) => props.theme.bgDiv};
   padding: 6px;
-  height: 50%;
+  min-height: 52px;
   border-radius: 10px;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+  max-width: 520px;
+  position: relative;
+  z-index: 5;
+  pointer-events: auto;
+  
+  @media (max-width: 1024px) {
+    order: 3;
+    max-width: none;
+    width: 100%;
+    justify-content: space-between;
+  }
   
   @media (max-width: 768px) {
-    width: 100%;
-    order: 3;
-    margin-top: 10px;
-    justify-content: space-around;
-    padding: 8px 4px;
+    min-height: 48px;
+    padding: 6px 4px;
+    gap: 2px;
+  }
+  
+  @media (max-width: 480px) {
+    padding: 4px 2px;
   }
 `
 
-const HeaderNavLinks = styled.div`
+const HeaderNavLink = styled(Link)`
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   background-color: ${(props) => props.$active ? props.theme.bgSubDiv : props.theme.bgDiv };
-  height: 100%;
+  min-height: 40px;
   font-family: 'Roboto';
-  margin: 5px;
-  border-radius: 10px;
-  padding: 0 5px 0 5px;
+  margin: 0;
+  border-radius: 8px;
+  padding: 8px 12px;
   cursor: pointer;
   text-transform: uppercase;
-  font-weight: bold;
-  font-size: small;
+  font-weight: 700;
+  font-size: 12px;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  pointer-events: auto;
+  position: relative;
+  z-index: 6;
+  border: 1px solid ${(props) => props.$active ? 'rgba(0, 183, 18, 0.35)' : 'transparent'};
+  
+  &:hover {
+    opacity: 1;
+    background: ${(props) => props.$active ? props.theme.bgSubDiv : 'rgba(0, 183, 18, 0.12)'};
+    transform: translateY(-2px);
+  }
+  
+  @media (max-width: 1024px) {
+    font-size: 11px;
+    padding: 7px 10px;
+  }
   
   @media (max-width: 768px) {
-    font-size: xx-small;
-    margin: 2px;
-    padding: 4px 6px;
+    font-size: 10px;
+    padding: 6px 7px;
+    min-height: 38px;
+    flex: 1;
   }
   
   @media (max-width: 480px) {
     font-size: 9px;
-    margin: 1px;
-    padding: 3px 4px;
+    padding: 5px 4px;
   }
 `
 

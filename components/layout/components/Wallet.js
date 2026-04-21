@@ -140,58 +140,80 @@ const ConnectWalletWrapper = styled.div`
   align-items: center;
   justify-content: space-between;
   background-color: ${(props) => props.theme.bgDiv};
-  padding: 5px 9px;
+  padding: 8px 12px;
   height: 100%;
+  gap: 8px;
   color: ${(props) => props.theme.color};
   border-radius: 10px;
-  margin-right: 15px;
   font-family: "Roboto";
-  font-weight: bold;
-  font-size: small;
+  font-weight: 600;
+  font-size: 12px;
   cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  min-height: 44px;
+  
+  &:hover {
+    opacity: 0.8;
+    transform: scale(1.02);
+  }
+  
+  @media (max-width: 1024px) {
+    padding: 6px 10px;
+    font-size: 11px;
+    gap: 6px;
+  }
   
   @media (max-width: 768px) {
-    font-size: x-small;
-    padding: 4px 6px;
-    margin-right: 8px;
+    font-size: 10px;
+    padding: 5px 8px;
+    gap: 4px;
   }
   
   @media (max-width: 480px) {
-    font-size: xx-small;
-    padding: 3px 5px;
-    margin-right: 5px;
+    font-size: 9px;
+    padding: 4px 6px;
+    gap: 3px;
   }
 `;
 
 const Balance = styled.h2`
   font-family: "Roboto";
-  font-weight: bold;
-  font-size: small;
-  margin: 0 8px 0 0;
+  font-weight: 600;
+  font-size: 12px;
+  margin: 0;
+  color: inherit;
+  
+  @media (max-width: 1024px) {
+    font-size: 11px;
+  }
   
   @media (max-width: 768px) {
-    font-size: x-small;
-    margin: 0 4px 0 0;
+    font-size: 10px;
   }
   
   @media (max-width: 480px) {
-    font-size: xx-small;
-    margin: 0 2px 0 0;
+    font-size: 9px;
   }
 `;
 
 const Address = styled.h2`
   font-family: "Roboto";
-  font-weight: bold;
-  font-size: small;
+  font-weight: 600;
+  font-size: 12px;
   margin: 0;
+  color: inherit;
+  
+  @media (max-width: 1024px) {
+    font-size: 11px;
+  }
   
   @media (max-width: 768px) {
-    font-size: x-small;
+    font-size: 10px;
   }
   
   @media (max-width: 480px) {
-    font-size: xx-small;
+    font-size: 9px;
   }
 `;
 

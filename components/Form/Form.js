@@ -140,30 +140,73 @@ const FormWrapper = styled.div`
     width: 100%;
     display: flex;
     justify-content: center;
-    padding: 0 10px;
+    align-items: center;
+    min-height: 60vh;
+    padding: 40px 20px;
+    box-sizing: border-box;
+    background: linear-gradient(135deg, rgba(0, 183, 18, 0.05) 0%, rgba(90, 255, 21, 0.03) 100%);
+    
+    @media (max-width: 768px) {
+        padding: 30px 16px;
+        min-height: auto;
+    }
+    
+    @media (max-width: 480px) {
+        padding: 20px 12px;
+    }
 `;
 
 const FormMain = styled.div`
-    width: 80%;
+    width: 85%;
+    max-width: 1100px;
+    background: ${(props) => props.theme.bgDiv};
+    border-radius: 16px;
+    padding: 50px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(0, 183, 18, 0.1);
+    
+    @media (max-width: 1200px) {
+        width: 90%;
+        padding: 40px;
+    }
     
     @media (max-width: 1024px) {
-        width: 90%;
+        width: 95%;
+        padding: 35px;
     }
     
     @media (max-width: 768px) {
-        width: 95%;
+        width: 100%;
+        padding: 25px;
+    }
+    
+    @media (max-width: 480px) {
+        width: 100%;
+        padding: 20px;
+        border-radius: 12px;
     }
 `;
 
 const FormInputsWrapper = styled.div`
     display: flex;
-    justify-content: space-between;
-    margin-top: 45px;
-    gap: 20px;
+    flex-wrap: wrap;
+    gap: 40px;
+    margin-top: 0;
+    width: 100%;
+    
+    @media (max-width: 1024px) {
+        gap: 30px;
+    }
     
     @media (max-width: 768px) {
         flex-direction: column;
         gap: 0;
+        margin-top: 0;
+    }
+    
+    @media (max-width: 480px) {
+        gap: 0;
+        margin-top: 0;
     }
 `;
 
@@ -173,22 +216,52 @@ const Spinner = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
+    gap: 20px;
 `;
 
 const SuccessWrapper = styled.div`
     width: 100%;
-    height: 80vh;
+    min-height: 60vh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: ${(props) => props.theme.bgSubDiv};
-    border-radius: 8px;
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(34, 211, 238, 0.05) 100%);
+    border-radius: 16px;
     justify-content: center;
+    padding: 40px 20px;
+    gap: 30px;
+    
+    h1 {
+        color: #10b981;
+        font-size: 2rem;
+        margin: 0;
+        text-align: center;
+    }
+    
+    @media (max-width: 768px) {
+        min-height: 50vh;
+        padding: 30px 20px;
+        
+        h1 {
+            font-size: 1.5rem;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        min-height: auto;
+        padding: 25px 15px;
+        
+        h1 {
+            font-size: 1.2rem;
+        }
+    }
 `;
 
 const Button = styled.button`
     display: flex;
     justify-content: center;
+    align-items: center;
     width: 30%;
     padding: 15px;
     color: white;
@@ -198,7 +271,39 @@ const Button = styled.button`
     margin-top: 30px;
     cursor: pointer;
     font-weight: bold;
-    font-size: large;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    min-height: 44px;
+    font-size: 1rem;
+    
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(0, 183, 18, 0.3);
+    }
+    
+    &:active {
+        transform: translateY(0);
+    }
+    
+    @media (max-width: 1024px) {
+        width: 35%;
+        padding: 12px;
+        font-size: 0.95rem;
+    }
+    
+    @media (max-width: 768px) {
+        width: 50%;
+        padding: 12px;
+        font-size: 0.9rem;
+        margin-top: 20px;
+    }
+    
+    @media (max-width: 480px) {
+        width: 100%;
+        padding: 12px;
+        font-size: 0.85rem;
+        margin-top: 15px;
+    }
 `;
 
 export default Form;
